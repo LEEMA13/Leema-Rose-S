@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quiz Page</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: "Comic Sans MS", cursive;
+        background: linear-gradient(to right, #ccf2d8, #a3c8f3);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 50px 20px;
+      }
+
+      .question-box {
+        background-color: white;
+        border: 3px solid black;
+        border-radius: 10px;
+        padding: 30px;
+        width: 80%;
+        text-align: center;
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 40px;
+      }
+
+      .options {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 30px;
+        width: 80%;
+        margin-bottom: 40px;
+      }
+
+      .option {
+        background-color: white;
+        border: 3px solid black;
+        border-radius: 15px;
+        padding: 20px;
+        text-align: center;
+        font-weight: bold;
+        font-size: 18px;
+        cursor: pointer;
+        transition: 0.3s;
+      }
+
+      .option.correct {
+        background-color: #c7f7c7;
+        border-color: green;
+      }
+
+      .option.wrong {
+        background-color: #f8c7c7;
+        border-color: red;
+      }
+
+      .buttons {
+        display: flex;
+        gap: 30px;
+        margin-top: 20px;
+      }
+
+      .btn {
+        padding: 15px 30px;
+        border: 3px dashed black;
+        border-radius: 10px;
+        background-color: white;
+        font-weight: bold;
+        font-size: 16px;
+        cursor: pointer;
+        transition: 0.2s;
+      }
+
+      .btn:hover {
+        transform: scale(1.05);
+      }
+
+      .score {
+        font-size: 22px;
+        font-weight: bold;
+        margin-top: 30px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="question-box" id="questionBox">Loading question...</div>
+
+    <div class="options" id="optionsBox"></div>
+
+    <div class="buttons">
+      <button class="btn" onclick="goPrevious()">Previous</button>
+      <a href="grans.html" class="btn" onclick="submitAnswer()">Answer</a>
+      <button class="btn" onclick="goNext()">Next</button>
+    </div>
+
+    <div class="score" id="scoreBox"></div>
+
+    <script>
+      const questions = [
+        {
+          question: "Which sentence is grammatically correct?",
+          options: [
+            "She don't like pizza",
+            "She doesn't likes pizza",
+            "She doesn't like pizza",
+            "She not like pizza",
+          ],
+          answer: 2,
+        },
+        {
+          question: "He _______ to the gym every morning",
+          options: ["Go", "Goes", "Going", "Gone"],
+          answer: 1,
+        },
+        {
+          question: "Identify the correct sentence",
+          options: [
+            "Me and him are friends",
+            "He and i are friends",
+            "Him and i are friends",
+            "I and he are friends",
+          ],
+          answer: 1,
+        },
+        {
+          question:
+            "Which word completes the sentence?(They have lived here______2015)",
+          options: ["Since", "For", "By", "At"],
+          answer: 0,
+        },
+        {
+          question: "Select the sentence with correct punction:",
+          options: [
+            "Its raining outside.",
+            "It's raining outside.",
+            "Its' raining outside.",
+            "Its raining, outside.",
+          ],
+          answer: 1,
+        },
+        {
+          question:
+            "Choose the coprrect comparative form:(This book is ________than that one)",
+          options: ["Gooder", "More good", "Better", "Best"],
+          answer: 2,
+        },
+        {
+          question:
+            "Fill in the blanks:(If I _______ rich, I would travel the world)",
+          options: ["Am", "Was", "Were", "Be"],
+          answer: 2,
+        },
+        {
+          question: "Which sentence is in passive voice ?",
+          options: [
+            "The chef cooked a delicious meal",
+            "A delicious meal was cooked by the chef",
+            "The chef is cooking a delicious meal",
+            "The chef had cooked a delicious meal",
+          ],
+          answer: 1,
+        },
+        {
+          question: "Choose the correct article:",
+          options: ["A", "An", "The", "No article"],
+          answer: 2,
+        },
+        {
+          question: "What is the correct plural form of 'child' ",
+          options: ["Java", "Python", "C++", "JavaScript"],
+          answer: 2,
+        },
+      ];
+
+      let currentQuestion = 0;
+      let score = 0;
+      let answeredQuestions = Array(questions.length).fill(null); // Store selected answer index
+
+      function loadQuestion() {
+        const q = questions[currentQuestion];
+        const questionBox = document.getElementById("questionBox");
+        const optionsBox = document.getElementById("optionsBox");
+        const scoreBox = document.getElementById("scoreBox");
+
+        questionBox.textContent = q.question;
+        optionsBox.innerHTML = "";
+
+        q.options.forEach((option, index) => {
+          const div = document.createElement("div");
+          div.classList.add("option");
+          div.textContent = option;
+          div.onclick = () => selectOption(div, index);
+          optionsBox.appendChild(div);
+        });
+
+        scoreBox.textContent = "";
+        showSelected();
+      }
+
+      function selectOption(element, index) {
+        const q = questions[currentQuestion];
+        const options = document.querySelectorAll(".option");
+
+        if (answeredQuestions[currentQuestion] !== null) return; // prevent re-answers
+
+        if (index === q.answer) {
+          element.classList.add("correct");
+          score++;
+        } else {
+          element.classList.add("wrong");
+          options[q.answer].classList.add("correct"); // show correct
+        }
+
+        answeredQuestions[currentQuestion] = index;
+      }
+
+      function showSelected() {
+        const selected = answeredQuestions[currentQuestion];
+        if (selected === null) return;
+
+        const options = document.querySelectorAll(".option");
+        const correctIndex = questions[currentQuestion].answer;
+
+        options[selected].classList.add(
+          selected === correctIndex ? "correct" : "wrong"
+        );
+        if (selected !== correctIndex) {
+          options[correctIndex].classList.add("correct");
+        }
+      }
+
+      function goPrevious() {
+        if (currentQuestion > 0) {
+          currentQuestion--;
+          loadQuestion();
+        }
+      }
+
+      function goNext() {
+        if (currentQuestion < questions.length - 1) {
+          currentQuestion++;
+          loadQuestion();
+        } else {
+          showFinalScore();
+        }
+      }
+
+      function submitAnswer() {
+        alert("This would show an answer explanation module in a real app.");
+      }
+
+      function showFinalScore() {
+        document.getElementById("questionBox").textContent = "Quiz Completed!";
+        document.getElementById("optionsBox").innerHTML = "";
+        document.getElementById(
+          "scoreBox"
+        ).textContent = `Your Score: ${score} / ${questions.length}`;
+      }
+
+      // Initial load
+      loadQuestion();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Welcome to MAG-OX</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: "Comic Sans MS", cursive, sans-serif;
+        background: linear-gradient(to right, #f9e7c3, #fff);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        height: 100vh;
+        justify-content: center;
+      }
+
+      h1 {
+        background-color: white;
+        border: 3px solid black;
+        padding: 20px 40px;
+        border-radius: 10px;
+        font-size: 28px;
+        margin-bottom: 50px;
+      }
+
+      .button-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 40px;
+      }
+
+      .custom-button {
+        background-color: white;
+        border: 3px solid black;
+        border-radius: 10px;
+        padding: 20px 40px;
+        font-size: 20px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        max-width: 400px;
+        text-align: center;
+      }
+
+      .custom-button:hover {
+        background-color: #f0f0f0;
+        transform: scale(1.05);
+      }
+
+      .center-button {
+        margin-top: 40px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>WELCOME TO MAG-OX</h1>
+
+    <div class="button-container">
+      <button class="custom-button" onclick="goToModule('music')">
+        READY TO LISTEN A MUSIC
+      </button>
+      <button class="custom-button" onclick="goToModule('gramer')">
+        READY TO TAKE A GRAMMATICAL QUIZ
+      </button>
+    </div>
+
+    <div class="center-button">
+      <button class="custom-button" onclick="goToModule('apptitude')">
+        READY TO TAKE AN APTITUDE QUIZ
+      </button>
+    </div>
+
+    <script>
+      function goToModule(module) {
+        switch (module) {
+          case "music":
+            window.location.href = "music.html";
+            break;
+          case "gramer":
+            window.location.href = "gramer.html";
+            break;
+          case "apptitude":
+            window.location.href = "apptitude.html";
+            break;
+          default:
+            alert("Module not found!");
+        }
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Music Start Page</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: "Comic Sans MS", cursive;
+        background: linear-gradient(to right, #f3f0f0, #fcbef5);
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .message {
+        background-color: white;
+        border: 3px solid black;
+        border-radius: 10px;
+        padding: 20px 40px;
+        font-size: 20px;
+        font-weight: bold;
+        text-align: center;
+        margin-bottom: 50px;
+      }
+
+      .start-button {
+        background-color: white;
+        border: 3px solid black;
+        border-radius: 10px;
+        padding: 15px 60px;
+        font-size: 24px;
+        font-weight: bold;
+        cursor: pointer;
+      }
+
+      .start-button:hover {
+        background-color: #ffe6f7;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="message">
+      To Listen a music click the button to start your jorney
+    </div>
+    <a
+      href="https://sites.google.com/view/mag-ox/home"
+      class="start-button"
+      onclick="playMusic()"
+      >START</a
+    >
+
+    <audio id="backgroundMusic" src="music.mp3"></audio>
+
+    <script>
+      function goToModule(module) {
+        switch (module) {
+          case "music":
+            window.location.href = "https://sites.google.com/view/mag-ox/home";
+            break;
+          default:
+            alert("Module not found!");
+        }
+      }
+      function playMusic() {
+        const audio = document.getElementById("backgroundMusic");
+        audio.play();
+      }
+    </script>
+  </body>
+</html>
